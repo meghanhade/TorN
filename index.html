@@ -1,13 +1,18 @@
 <head>
    <title>T or N</title>
    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+   <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
    <style>
-   body {color:white; font-size:140px; font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif; background-color:#000000; white-space: nowrap;}
+   body {color:black; font-size:14pt; font-family:"Open Sans", sans-serif; background-color:white; white-space: nowrap;}
    p.prediction {
-     line-height:70%;
-     margin-top:100px;
-     margin-right:50px;
+     margin-right:50%;
+     margin-left: 25%;
      }
+   p.route {
+    font-size: 120pt;
+     margin-top:10%;
+     margin-left: 25%;
+   }
    </style>
 </head>
 
@@ -16,42 +21,64 @@
 <html>
 <body>
   <p>
-  <script>
-function fetchPredictions(url, muniLine){
-  d3.xml(url, function(xml) {
-    var minutes =  d3.select(xml).selectAll("prediction")[0].map(function(prediction){
-      return d3.select(prediction).attr("minutes");
-      });
-      if (minutes.length===0){
-        d3.select(muniLine).text("--")
+    <script>
+
+      var nextMuni = null;
+      var nextT = null;
+      var nextN = null;
+
+      function fetchPredictions(url, muniLine){
+       
+
+        d3.xml(url, function(xml) {
+          var minutes =  d3.select(xml).selectAll("prediction")[0].map(function(prediction){
+            return d3.select(prediction).attr("minutes");
+            });
+            if (minutes.length===0){
+              d3.select(muniLine).text("--")
+            }
+            else{ 
+              d3.select(muniLine).text(minutes);
+            }
+
+            if (muniLine === "#T-Third"){
+              nextT = minutes[0];
+              console.log("next" + muniLine + ": " + nextT);
+            } else if (muniLine === "#N-Judah"){
+              nextN = minutes[0];
+              console.log("next" + muniLine + ": " + nextN);
+            }
+
+            if (this.nextT < this.nextN){
+              d3.select("#nextMuni").text("T");
+            } else if (this.nextN < this.nextT){
+              d3.select("#nextMuni").text("N");
+            } else if (this.nextT === this.nextN) {
+              d3.select("#nextMuni").text("either");
+            }
+
+          });
+      } 
+
+      function refreshPredictions(){
+    
+        // K-Ingleside T-Third Street
+        fetchPredictions("http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&stopId=17166&routeTag=KT", "#T-Third"); 
+
+        // N-Judah
+        fetchPredictions("http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&stopId=15240&routeTag=N", "#N-Judah");
+
+        
       }
-      else{ 
-        d3.select(muniLine).text(minutes)
-      }
-    });
-} 
 
-<!-- This is where you plug in your stopId and routeTag  -->
-
-function refreshPredictions(){
-  
-  // K-Ingleside T-Third Street
-  fetchPredictions("http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&stopId=17166&routeTag=KT", "#T-Third") 
-
-  // N-Judah
-  fetchPredictions("http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&stopId=15240&routeTag=N", "#N-Judah") 
-}
-  
-
-refreshPredictions()
-window.setInterval(refreshPredictions,7500);
-  </script>
+      refreshPredictions();
+      window.setInterval(refreshPredictions,15000);
+    </script>
   </p>
-  
   <div id="predictions">
-    <p class = "prediction"><span style="color:9966FF;font-weight:bold">T: </span><span id="T-Third"></span id></p>
-    <p>or<p>
-  <p class = "prediction"><span style="color:FF00FF;font-weight:bold">N: </span><span id="N-Judah"></span id></p>
+    <p class="route"><span style="color:black;font-weight:bold"></span><span id="nextMuni"></span id>
+    <p class = "prediction"><span style="color:000000;font-weight:bold">Next T departures: </span><span id="T-Third"></span id></p>
+    <p class = "prediction"><span style="color:000000;font-weight:bold">Next N departures: </span><span id="N-Judah"></span id></p>
   </div>
 </body>
 </html>
