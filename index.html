@@ -19,7 +19,14 @@
       justify-content: center;
       vertical-align: middle;
       align-items: center;
-       }
+    }
+    p.links {
+      display: flex;
+      justify-content: center;
+      vertical-align: middle;
+      align-items: center;
+      margin-top: 95px;
+    }
      p.route {
       color: black;
       display: flex;
@@ -59,10 +66,10 @@
             return d3.select(prediction).attr("minutes");
             });
             if (minutes.length===0){
-              d3.select(muniLine).text("--")
+              d3.select(muniLine).text(": no predicted departures")
             }
             else{ 
-              d3.select(muniLine).text(minutes);
+              d3.select(muniLine).text(": " + minutes);
             }
 
             if (muniLine === "#T-Third"){
@@ -94,19 +101,19 @@
       }
 
       refreshPredictions();
-      window.setInterval(refreshPredictions,15000);
+      window.setInterval(refreshPredictions,7500);
     </script>
   </p>
-  <!-- <div id="info">
-    <p class="links"><a href="https://github.com/meghanhade"><img src="GitHub-Mark-64px.png" alt="github" style="width:25px;height:25px;border:0;"></a> <a href="https://twitter.com/meghanhade"><img src="TwitterLogo.png" alt="twitter" style="width:30px;height:30px;border:0;"></a></p>
-  </div> -->
   <div id="predictions">
     <p class="torn">Departing next from 4th & King:</p>
     <p class="route"><span id="nextMuni"></span></p>
     <p class="route-shrug"><span id="nextMuniShrug"></span></p>
-    <p class = "prediction">T departures: </span><span id="T-Third"></p>
-    <p class = "prediction">N departures: </span><span id="N-Judah"></p>
+    <p class = "prediction">T departures</span><span id="T-Third"></p>
+    <p class = "prediction">N departures</span><span id="N-Judah"></p>
+     <p class="links"><a href="https://twitter.com/meghanhade"><img src="TwitterLogo.png" alt="twitter" style="width:30px;height:30px;border:0;"></a>
+     </p>  
   </div>
+    
   
 </body>
 </html>
