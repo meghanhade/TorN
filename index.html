@@ -5,8 +5,8 @@
 
    <style>
      body {
-      color:gray; 
-      font-size:14pt; 
+      color:black; 
+      font-size:big; 
       font-family:"Open Sans", 
       sans-serif; 
       background-color:white; 
@@ -81,8 +81,10 @@
 
             if (this.nextT < this.nextN){
               d3.select("#nextMuni").text("T");
+              d3.select("#nextMuniShrug").text("");
             } else if (this.nextN < this.nextT){
               d3.select("#nextMuni").text("N");
+              d3.select("#nextMuniShrug").text("");
             } else if (this.nextT === this.nextN) {
               d3.select("#nextMuni").text("");
               d3.select("#nextMuniShrug").text("¯\\\_(ツ)_/¯");
