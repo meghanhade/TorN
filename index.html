@@ -4,43 +4,37 @@
    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
    <style>
-     body {
+    body {
       color:black; 
       font-size:big; 
-      font-family:"Open Sans", 
-      sans-serif; 
-      background-color:white; 
-      white-space: nowrap;}
-     p.prediction {
-       /*color:f2cac2;*/
-       margin: 0 10px 0 10px;
+      font-family:"Open Sans", sans-serif; 
+      background-color:white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    }
+    p.prediction {
+      display: flex;
+      justify-content: center;
+      vertical-align: middle;
+      align-items: center;
        }
      p.route {
-      line-height: 1pt;
-      margin-top:25%;
-      margin-left: 10px;
-      margin-bottom: 25%;
-      /*color:464b73;*/
       color: black;
-      font-size: 120pt;
-     }
-     p.route-shrug {
-      line-height: 1pt;
-      margin: 10%;
-      /*color:646ba1;*/
-      color: black;
-      font-size: xx-large;
-     }
-     p.torn{
-      /*color:c9bfd6;*/
-      margin: 10px;
-      white-space: normal;
+      display: flex;
+      vertical-align: middle;
+      align-items: center;
+      justify-content: center;
+      font-size: 300%;
      }
       p.info{
-      /*color:c9bfd6;*/
       font-size: small;
-      margin: 10px;
       white-space: normal;
+      display: flex;
+      vertical-align: middle;
+      align-items: center;
+      justify-content: center;
      }
    </style>
 </head>
@@ -73,21 +67,16 @@
 
             if (muniLine === "#T-Third"){
               nextT = minutes[0];
-              console.log("next" + muniLine + ": " + nextT);
             } else if (muniLine === "#N-Judah"){
               nextN = minutes[0];
-              console.log("next" + muniLine + ": " + nextN);
             }
 
             if (this.nextT < this.nextN){
               d3.select("#nextMuni").text("T");
-              d3.select("#nextMuniShrug").text("");
             } else if (this.nextN < this.nextT){
               d3.select("#nextMuni").text("N");
-              d3.select("#nextMuniShrug").text("");
             } else if (this.nextT === this.nextN) {
-              d3.select("#nextMuni").text("");
-              d3.select("#nextMuniShrug").text("¯\\\_(ツ)_/¯");
+              d3.select("#nextMuni").text("¯\\\_(ツ)_/¯");
             }
 
           });
@@ -112,13 +101,11 @@
     <p class="links"><a href="https://github.com/meghanhade"><img src="GitHub-Mark-64px.png" alt="github" style="width:25px;height:25px;border:0;"></a> <a href="https://twitter.com/meghanhade"><img src="TwitterLogo.png" alt="twitter" style="width:30px;height:30px;border:0;"></a></p>
   </div> -->
   <div id="predictions">
-    <p class="torn">Feeling TorN?</p>
-    <p class="info">Standing at the corner of 4th & King and wondering whether the Muni T or N will depart next?</p>
-    <p class="torn">Take the:</p>
+    <p class="torn">Departing next from Fourth & King:</p>
     <p class="route"><span id="nextMuni"></span></p>
     <p class="route-shrug"><span id="nextMuniShrug"></span></p>
-    <p class = "prediction">Next T departures: </span><span id="T-Third"></p>
-    <p class = "prediction">Next N departures: </span><span id="N-Judah"></p>
+    <p class = "prediction">T departures: </span><span id="T-Third"></p>
+    <p class = "prediction">N departures: </span><span id="N-Judah"></p>
   </div>
   
 </body>
