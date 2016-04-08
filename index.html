@@ -2,17 +2,44 @@
    <title>T or N</title>
    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
    <style>
-   body {color:black; font-size:14pt; font-family:"Open Sans", sans-serif; background-color:white; white-space: nowrap;}
-   p.prediction {
-     margin-right:50%;
-     margin-left: 25%;
+     body {
+      color:black; 
+      font-size:14pt; 
+      font-family:"Open Sans", 
+      sans-serif; 
+      background-color:white; 
+      white-space: nowrap;}
+     p.prediction {
+       color:f2cac2;
+       margin: 0 10% 0 10%;
+       }
+     p.route {
+      line-height: 1pt;
+      margin: 25%;
+      font-weight: bold;
+      color:646ba1;
+      font-size: 120pt;
      }
-   p.route {
-    font-size: 120pt;
-     margin-top:10%;
-     margin-left: 25%;
-   }
+     p.route-shrug {
+      line-height: 1pt;
+      margin: 20%;
+      font-weight: bold;
+      color:646ba1;
+      font-size: xx-large;
+     }
+     p.torn{
+      color:c9bfd6;
+      margin: 10%;
+      white-space: normal;
+     }
+      p.info{
+      color:c9bfd6;
+      font-size: small;
+      margin: 10%;
+      white-space: normal;
+     }
    </style>
 </head>
 
@@ -55,7 +82,8 @@
             } else if (this.nextN < this.nextT){
               d3.select("#nextMuni").text("N");
             } else if (this.nextT === this.nextN) {
-              d3.select("#nextMuni").text("¯\\\_(ツ)_/¯");
+              d3.select("#nextMuni").text("");
+              d3.select("#nextMuniShrug").text("¯\\\_(ツ)_/¯");
             }
 
           });
@@ -76,10 +104,20 @@
       window.setInterval(refreshPredictions,15000);
     </script>
   </p>
+  <!-- <div id="info">
+    <p class="links"><a href="https://github.com/meghanhade"><img src="GitHub-Mark-64px.png" alt="github" style="width:25px;height:25px;border:0;"></a> <a href="https://twitter.com/meghanhade"><img src="TwitterLogo.png" alt="twitter" style="width:30px;height:30px;border:0;"></a></p>
+  </div> -->
   <div id="predictions">
-    <p class="route"><span style="color:black;font-weight:bold"></span><span id="nextMuni"></span id>
-    <p class = "prediction"><span style="color:000000;font-weight:bold">Next T departures: </span><span id="T-Third"></span id></p>
-    <p class = "prediction"><span style="color:000000;font-weight:bold">Next N departures: </span><span id="N-Judah"></span id></p>
+    <p class="torn">Feeling TorN?</p>
+    <p class="info">Standing at the corner of 4th & King and wondering whether the Muni T or N will depart next?</p>
+    <p class="torn">Take the:</p>
+    <p class="route"><span id="nextMuni"></span></p>
+    <p class="route-shrug"><span id="nextMuniShrug"></span></p>
+    <p class = "prediction"><span style="color:e39eab">Next T departures: </span><span id="T-Third"></span></p>
+    <p class = "prediction"><span style="color:e39eab">Next N departures: </span><span id="N-Judah"></span></p>
   </div>
+  
 </body>
 </html>
+
+
