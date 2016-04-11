@@ -59,34 +59,41 @@
       var nextN = null;
 
       function fetchPredictions(url, muniLine){
+
+        // this.multipleImportLevels = this.get('import_level').split(',').map(Number);
+        // this.importLevel = Math.max.apply(Math,this.multipleImportLevels);
        
 
         d3.xml(url, function(xml) {
           var minutes =  d3.select(xml).selectAll("prediction")[0].map(function(prediction){
             return d3.select(prediction).attr("minutes");
             });
-            
-            if (minutes.length===0){
-              d3.select(muniLine).text(": no predicted departures")
-            }
-            else{ 
-              d3.select(muniLine).text(": " + minutes);
-            }
 
-            if (muniLine === "#T-Third"){
-              nextT = minutes[0];
-            } else if (muniLine === "#N-Judah"){
-              nextN = minutes[0];
-            }
+    
+          if (minutes.length===0){
+            d3.select(muniLine).text(": no predicted departures")
+          }
+          else{ 
+            d3.select(muniLine).text(": " + minutes);
+          }
 
-            if (this.nextT < this.nextN){
-              d3.select("#nextMuni").text("KT");
-            } else if (this.nextN < this.nextT){
-              d3.select("#nextMuni").text("N");
-            } else if (this.nextT === this.nextN) {
-              d3.select("#nextMuni").text("¯\\\_(ツ)_/¯");
-            }
-          });
+          if (muniLine === "#T-Third"){
+            // nextT = minutes[0];
+            nextT = Math.min.apply(Math,minutes)
+          } else if (muniLine === "#N-Judah"){
+            // nextN = minutes[0];
+            nextN = Math.min.apply(Math,minutes)
+
+          }
+
+          if (this.nextT < this.nextN){
+            d3.select("#nextMuni").text("KT");
+          } else if (this.nextN < this.nextT){
+            d3.select("#nextMuni").text("N");
+          } else if (this.nextT === this.nextN) {
+            d3.select("#nextMuni").text("¯\\\_(ツ)_/¯");
+          }
+        });
       } 
 
       function refreshPredictions(){
