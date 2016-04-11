@@ -13,7 +13,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
-
+    }
+    p.torn {
+      display: flex;
+      justify-content: center;
+      vertical-align: middle;
+      align-items: center;
     }
     p.prediction {
       display: flex;
@@ -36,14 +41,7 @@
       justify-content: center;
       font-size: 300%;
      }
-      p.info{
-      font-size: small;
-      white-space: normal;
-      display: flex;
-      vertical-align: middle;
-      align-items: center;
-      justify-content: center;
-     }
+    }
    </style>
 </head>
 
@@ -60,10 +58,20 @@
 
       function fetchPredictions(url, muniLine){
 
-        d3.xml(url, function(xml) {
-          var minutes =  d3.select(xml).selectAll("prediction")[0].map(function(prediction){
-            return d3.select(prediction).attr("minutes");
-            });
+        // d3.xml(url, "application/xml", function(xml) {
+        //   var minutes =  d3.select(xml).selectAll("prediction")[0].map(function(prediction){
+        //     return d3.select(prediction).attr("minutes");
+        //   });
+
+         d3.xml(url, function(err, xml) {
+            if (err) {
+              d3.select("#nextMuni").text(":(");
+              d3.select(nextbusError).text("The Muni real-time predictions service is down.");
+              d3.select(muniLine).text(": no predicted departures");
+            }
+            var minutes =  d3.select(xml).selectAll("prediction")[0].map(function(prediction){
+              return d3.select(prediction).attr("minutes");
+            });        
 
     
           if (muniLine === "#T-Third"){
@@ -111,6 +119,7 @@
     <p class="torn">Departing next from 4th & King:</p>
     <p class="route"><span id="nextMuni"></span></p>
     <p class="route-shrug"><span id="nextMuniShrug"></span></p>
+    <p class="prediction"><span id="nextbusError"></span></p>
     <p class = "prediction">KT departures</span><span id="T-Third"></p>
     <p class = "prediction">N departures</span><span id="N-Judah"></p>
     <p class="links"><a href="https://twitter.com/meghanhade"><img src="TwitterLogo.png" alt="twitter" style="width:30px;height:30px;border:0;"></a></p>  
