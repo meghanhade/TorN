@@ -60,10 +60,6 @@
 
       function fetchPredictions(url, muniLine){
 
-        // this.multipleImportLevels = this.get('import_level').split(',').map(Number);
-        // this.importLevel = Math.max.apply(Math,this.multipleImportLevels);
-       
-
         d3.xml(url, function(xml) {
           var minutes =  d3.select(xml).selectAll("prediction")[0].map(function(prediction){
             return d3.select(prediction).attr("minutes");
