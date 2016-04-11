@@ -66,18 +66,11 @@
             });
 
     
-          if (minutes.length===0){
-            d3.select(muniLine).text(": no predicted departures")
-          }
-          else{ 
-            d3.select(muniLine).text(": " + minutes);
-          }
-
           if (muniLine === "#T-Third"){
-            // nextT = minutes[0];
+            minutes = minutes.map(Number);
             nextT = Math.min.apply(Math,minutes)
           } else if (muniLine === "#N-Judah"){
-            // nextN = minutes[0];
+            minutes = minutes.map(Number);            
             nextN = Math.min.apply(Math,minutes)
 
           }
@@ -85,9 +78,20 @@
           if (this.nextT < this.nextN){
             d3.select("#nextMuni").text("KT");
           } else if (this.nextN < this.nextT){
+
             d3.select("#nextMuni").text("N");
           } else if (this.nextT === this.nextN) {
             d3.select("#nextMuni").text("¯\\\_(ツ)_/¯");
+          }
+
+          if (minutes.length===0){
+            d3.select(muniLine).text(": no predicted departures")
+          }
+          else{ 
+            minutes = minutes.sort(function(a, b) {
+              return a - b;
+            });
+            d3.select(muniLine).text(": " + minutes);
           }
         });
       } 
