@@ -1,0 +1,115 @@
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>KT or N?</title>
+   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+   <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+   <style>
+    body {
+      color:black; 
+      font-size:big; 
+      font-family:"Open Sans", sans-serif; 
+      background-color:white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    }
+    p.prediction {
+      display: flex;
+      justify-content: center;
+      vertical-align: middle;
+      align-items: center;
+    }
+    p.links {
+      display: flex;
+      justify-content: center;
+      vertical-align: middle;
+      align-items: center;
+      margin-top: 95px;
+    }
+     p.route {
+      color: black;
+      display: flex;
+      vertical-align: middle;
+      align-items: center;
+      justify-content: center;
+      font-size: 300%;
+     }
+      p.info{
+      font-size: small;
+      white-space: normal;
+      display: flex;
+      vertical-align: middle;
+      align-items: center;
+      justify-content: center;
+     }
+   </style>
+</head>
+
+<!DOCTYPE html>
+<meta charset="UTF-8">
+
+<html>
+<body>
+  <p>
+    <script>
+      var nextMuni = null;
+      var nextT = null;
+      var nextN = null;
+
+      function fetchPredictions(url, muniLine){
+       
+
+        d3.xml(url, function(xml) {
+          var minutes =  d3.select(xml).selectAll("prediction")[0].map(function(prediction){
+            return d3.select(prediction).attr("minutes");
+            });
+            
+            if (minutes.length===0){
+              d3.select(muniLine).text(": no predicted departures")
+            }
+            else{ 
+              d3.select(muniLine).text(": " + minutes);
+            }
+
+            if (muniLine === "#T-Third"){
+              nextT = minutes[0];
+            } else if (muniLine === "#N-Judah"){
+              nextN = minutes[0];
+            }
+
+            if (this.nextT < this.nextN){
+              d3.select("#nextMuni").text("KT");
+            } else if (this.nextN < this.nextT){
+              d3.select("#nextMuni").text("N");
+            } else if (this.nextT === this.nextN) {
+              d3.select("#nextMuni").text("¯\\\_(ツ)_/¯");
+            }
+          });
+      } 
+
+      function refreshPredictions(){
+        // K-Ingleside T-Third Street
+        fetchPredictions("http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&stopId=17166&routeTag=KT", "#T-Third"); 
+
+        // N-Judah
+        fetchPredictions("http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&stopId=15240&routeTag=N", "#N-Judah");        
+      }
+
+      refreshPredictions();
+      window.setInterval(refreshPredictions,15000);
+    </script>
+  </p>
+  <div id="predictions">
+    <p class="torn">Departing next from 4th & King:</p>
+    <p class="route"><span id="nextMuni"></span></p>
+    <p class="route-shrug"><span id="nextMuniShrug"></span></p>
+    <p class = "prediction">KT departures</span><span id="T-Third"></p>
+    <p class = "prediction">N departures</span><span id="N-Judah"></p>
+    <p class="links"><a href="https://twitter.com/meghanhade"><img src="TwitterLogo.png" alt="twitter" style="width:30px;height:30px;border:0;"></a></p>  
+  </div>
+</body>
+</html>
+
+
