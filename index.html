@@ -66,7 +66,7 @@
          d3.xml(url, function(err, xml) {
             if (err) {
               d3.select("#nextMuni").text("¯\\\_(ツ)_/¯");
-              d3.select(nextbusError).text("The Muni real-time predictions service is down.");
+              d3.select("#info").text("The Muni real-time predictions service is down.");
               d3.select(muniLine).text(": no predicted departures");
             }
             var minutes =  d3.select(xml).selectAll("prediction")[0].map(function(prediction){
@@ -88,7 +88,8 @@
           } else if (this.nextN < this.nextT){
             d3.select("#nextMuni").text("N");
           } else if (this.nextT === this.nextN) {
-            d3.select("#nextMuni").text("¯\\\_(ツ)_/¯");
+            d3.select("#nextMuni").text("KT = N");
+            d3.select("#info").text("Both are predicted to leave at the same time.");
           }
 
           if (minutes.length===0){
@@ -119,7 +120,7 @@
     <p class="torn">Departing next from 4th & King:</p>
     <p class="route"><span id="nextMuni"></span></p>
     <p class="route-shrug"><span id="nextMuniShrug"></span></p>
-    <p class="prediction"><span id="nextbusError"></span></p>
+    <p class="prediction"><span id="info"></span></p>
     <p class = "prediction">KT departures</span><span id="T-Third"></p>
     <p class = "prediction">N departures</span><span id="N-Judah"></p>
     <p class="links"><a href="https://twitter.com/meghanhade"><img src="TwitterLogo.png" alt="twitter" style="width:30px;height:30px;border:0;"></a></p>  
